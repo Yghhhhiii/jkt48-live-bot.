@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Info JKT48</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    header {
+      background: #e91e63;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    section {
+      padding: 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #e91e63;
+      padding-bottom: 5px;
+    }
+    .card {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    a {
+      color: #e91e63;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Info Live Member JKT48</h1>
+  </header>
+
+  <section>
+    <h2>IDN Live</h2>
+    <div id="idn-container">Loading...</div>
+  </section>
+
+  <section>
+    <h2>Showroom Live</h2><div id="showroom-container">Loading...</div>
+  </section>
+
+  <section>
+    <h2>YouTube Live</h2>
+    <div id="youtube-container">Loading...</div>
+  </section>
+
+  <section>
+    <h2>News & Event</h2>
+    <div id="news-container">Update coming soon...</div>
+  </section>
+
+  <script>
+    async function loadData(url, containerId) {
+      const container = document.getElementById(containerId);
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        container.innerHTML = data.map(item => `
+          <div class="card">
+            <strong>item.member_name || item.title</strong><br>{item.time || item.date || ""}<br>
+            <a href="${item.url}" target="_blank">Lihat Live</a>
+          </div>
+        `).join("");
+      } catch {
+        container.innerHTML = "Gagal memuat data.";
+      }
+    }
+
+    loadData("https://v2.jkt48connect.com/api/jkt48/live/idn?apikey=Wota48", "idn-container");
+    loadData("https://v2.jkt48connect.my.id/api/jkt48/live/showroom?apikey=Wota48", "showroom-container");
+    loadData("https://v2.jkt48connect.my.id/api/jkt48/live/youtube?apikey=Wota48", "youtube-container");
+  </script>
+</body>
+</html>
